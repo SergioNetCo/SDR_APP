@@ -65,19 +65,100 @@
   </script>
   <style>
     body {
-      margin: 40px 10px;
-      padding: 0;
-      font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-      font-size: 14px;
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
     }
 
     #calendar {
-      max-width: 1100px;
-      margin: 0 auto;
+    max-width: 1100px;
+    margin-left: calc(3cm + 250px + 10px); /* 3 cm de separación más el ancho del side-panel */
+    margin-right: 3cm; /* 3 cm de separación a la derecha */
     }
+
+    #calendar > h1:nth-child(3) {
+    float: left;
+    }
+
+    #side-panel {
+    width: 250px; /* ancho fijo del panel lateral */
+    position: fixed;
+    top: 40px;
+    left: 1.5cm; /* fija el panel a 3 cm desde el borde izquierdo */
+    background-color: rgba(223, 223, 216, 0.356);
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 15px 15px 40px 8px rgba(0, 0, 0, 0.24);
+    border-radius: 5%;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    transition: transform 0.3s ease;
+    }
+        #side-panel:hover {
+            transform: scale(1.02) translateX(5px); /* Se agranda un 5% y se mueve 10px hacia la derecha */
+        }
+
+    #side-panel h1 {
+    margin: 0 auto;
+    padding: 7.5%;
+    }
+
+    #side-panel img {
+    width: 100%;
+    height: auto;
+    }   
+
+    .room {
+    margin-bottom: 10px; 
+    text-align: left;
+    margin-left: 15%;
+    margin-bottom: 10%;
+    padding: 2%;
+    }
+
+    #blue-room, #orange-room {
+    display: inline-block;
+    width: 20px; 
+    height: 20px;
+    border-radius: 50%; 
+    margin-right: 10px; 
+    vertical-align: middle; /
+    }
+
+    #blue-room {
+    background-color: blue; 
+    }
+
+    #orange-room {
+    background-color: orange;
+    }
+
+    h2 {
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+    vertical-align: middle;
+    }
+
+
+
   </style>
 </head>
 <body>
+    <div id='side-panel'>
+        <img src="./img/logo-rafael-hoz.png" alt="">
+        <h1>Leyenda</h1>
+        <hr style="width: 40%; margin-bottom: 10%;">
+        <div class="room">
+            <span id='blue-room'></span>
+            <h2>Sala grande</h2>
+          </div>
+          <div class="room">
+            <span id='orange-room'></span>
+            <h2>Sala pequeña</h2>
+          </div>
+          
+    </div>
   <div id='calendar'></div>
 </body>
 </html>
