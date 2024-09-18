@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Crear Evento</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Obtener los datos del evento seleccionados
+      var selectedEvent = JSON.parse(localStorage.getItem('selectedEvent'));
+
+      if (selectedEvent) {
+        // Prellenar el formulario con los datos seleccionados
+        document.getElementById('startDate').value = selectedEvent.start.split('T')[0]; // Fecha de inicio
+        document.getElementById('startTime').value = selectedEvent.start.split('T')[1]?.substring(0, 5) || ''; // Hora de inicio
+        document.getElementById('endTime').value = selectedEvent.end.split('T')[1]?.substring(0, 5) || ''; // Hora de fin
+      }
+
+      document.getElementById('saveEvent').onclick = function() {
+        var title = document.getElementById('title').value;
+        var description = document.getElementById('description').value;
+        var attendees = document.getElementById('attendees').value;
+        var room = document.querySelector('input[name="room"]:checked')?.value;
+        var startDate = document.getElementById('startDate').value;
+        var startTime = document.getElementById('startTime').value;
+        var endTime = document.getElementById('endTime').value;
+
+        if (!title) {
+          alert('El título es obligatorio');
+          return;
+        }
+
+        if (!room) {
+          alert('Por favor, seleccione una sala');
+          return;
+        }
+
+        // Determinar el color basado en la sala seleccionada
+        var color;
+        if (room === 'Sala Grande (1)') {
+          color = 'orange';
+        } else if (room === 'Sala Pequeña (2)') {
+          color = 'blue';
+        }
+
+        // Crear el nuevo evento
+        var newEvent = {
+          title: title,
+          start: startDate + 'T' + startTime,
+          end: startDate + 'T' + endTime,
+          description: description,
+          attendees: attendees,
+          room: room,
+          color: color, // Añadir color al evento
+          allDay: selectedEvent.allDay
+        };
+
+        // Guardar el nuevo evento en localStorage
+        localStorage.setItem('newEvent', JSON.stringify(newEvent));
+
+        // Redirigir de vuelta al calendario
+        window.location.href = 'index.html';
+      };
+    });
+  </script>
+  <style>
+    body {
+      font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+      font-size: 14px;
+      margin: 40px 10px;
+      padding: 0;
+    }
+
+    #eventForm {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    #eventForm label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    #eventForm input, #eventForm textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #eventForm button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #eventForm button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <form id="eventForm">
+    <label for="title">Autor (obligatorio):</label>
+    <input type="text" id="title" required>
+
+    <label for="attendees">Asistentes/Empresa:</label>
+    <input type="text" id="attendees">
+
+    <label for="startDate">Fecha:</label>
+    <input type="date" id="startDate">
+
+    <label for="startTime">Hora de inicio:</label>
+    <input type="time" id="startTime">
+
+    <label for="endTime">Hora de fin:</label>
+    <input type="time" id="endTime">
+
+    <label>Seleccione la sala:</label>
+    <label><input type="radio" name="room" value="Sala Grande (1)" /> Sala Grande (1)</label>
+    <label><input type="radio" name="room" value="Sala Pequeña (2)" /> Sala Pequeña (2)</label>
+
+    <label for="description">Descripción:</label>
+    <textarea id="description"></textarea>
+
+    <button type="button" id="saveEvent">Guardar evento</button>
+  </form>
+</body>
+</html>
